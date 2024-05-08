@@ -15,22 +15,24 @@ import java.util.List;
 import java.util.Optional;
 
 public class ArchiveFile implements Archive{
-
-
     
     private static final Logger logger = LoggerFactory.getLogger(ArchiveFile.class);
 
     protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
     protected EntityManager em = emf.createEntityManager();
-
-    private File f = new File("./catalogo.csv");
     
     @Override
     public void save(Element cat) {
-        var t = em.getTransaction();
-        t.begin();
-        em.persist(cat); // Persiste l'oggetto nel database
-        t.commit(); // Commit della transazione
+        try {
+            em.getTransaction().begin();
+            em.merge(cat); // Usa merge invece di persist
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            logger.error("Errore durante il salvataggio del libro", e);
+        }
     }
 
     @Override
@@ -61,7 +63,7 @@ public class ArchiveFile implements Archive{
     public List<Element> getByTitle(String title) {
         try {
             var query = em.createNamedQuery("GET_TITLE", Element.class);
-            query.setParameter("TITLE", title);
+            query.setParameter("title", title);
             return query.getResultList();
         } catch (Exception e) {
             logger.error("Errore durante la ricerca tramite titolo", e);

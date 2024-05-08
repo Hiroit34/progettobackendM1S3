@@ -13,7 +13,7 @@ public class Book extends Element{
     String author;
     String genre;
 
-    public Book(String ISBN, String title, int publicationYear, int pages, String author, String genre) {
+    public Book(Integer ISBN, String title, int publicationYear, int pages, String author, String genre) {
         super(ISBN, title, publicationYear, pages);
         this.author = author;
         this.genre = genre;
@@ -44,6 +44,10 @@ public class Book extends Element{
         return "Book{" +
                 "author='" + author + '\'' +
                 ", genre='" + genre + '\'' +
+                ", ISBN='" + ISBN + '\'' +
+                ", title='" + title + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", pages=" + pages +
                 '}';
     }
 }

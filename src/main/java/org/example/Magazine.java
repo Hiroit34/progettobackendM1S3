@@ -1,12 +1,16 @@
 package org.example;
 
-import java.util.Date;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("Magazine")
 
 public class Magazine extends Element {
 
     private Periodicity periodicity;
 
-    public Magazine(String ISBN, String title, int publicationYear, int pages, Periodicity periodicity) {
+    public Magazine(Integer ISBN, String title, int publicationYear, int pages, Periodicity periodicity) {
         super(ISBN, title, publicationYear, pages);
     }
 

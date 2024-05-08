@@ -16,12 +16,12 @@ import java.util.Date;
 public abstract class Element {
     @Id
     @GeneratedValue
-    String ISBN;
+    Integer ISBN;
     String title;
     int publicationYear;
     int pages;
 
-    public Element (String ISBN, String title, int publicationYear, int pages) {
+    public Element (Integer ISBN, String title, int publicationYear, int pages) {
         this.ISBN = ISBN;
         this.title = title;
         this.publicationYear = publicationYear;
@@ -30,7 +30,7 @@ public abstract class Element {
 
     public Element() {}
 
-    public void setISBN(String ISBN) {
+    public void setISBN(Integer ISBN) {
         this.ISBN = ISBN;
     }
 
@@ -58,7 +58,7 @@ public abstract class Element {
         return pages;
     }
 
-    public String getISBN() {
+    public Integer getISBN() {
         return ISBN;
     }
 
