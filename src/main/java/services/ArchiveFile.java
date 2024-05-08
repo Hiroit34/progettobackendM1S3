@@ -48,22 +48,22 @@ public class ArchiveFile implements Archive{
                 t.commit();
                 logger.info("Catalogo con ISBN {} rimosso con successo", ISBN);
             } else {
-                logger.warn("Nessun catalogo trovato con ISBN {}", ISBN);
+                logger.warn("Nessun catalogo trovato tramite ISBN {}", ISBN);
             }
         } catch (Exception e) {
-            logger.error("Errore durante la rimozione del catalogo con ISBN {}", ISBN, e);
+            logger.error("Errore durante la rimozione del catalogo tramite ISBN {}", ISBN, e);
         }
     }
 
     @Override
     public List<Element> getByTitle(String title) {
         try {
-            var query = em.createNamedQuery("GET_TITOLO", Element.class);
-            query.setParameter("titolo", title);
+            var query = em.createNamedQuery("GET_TITLE", Element.class);
+            query.setParameter("TITLE", title);
             List<Element> result = query.getResultList();
             return result;
         } catch (Exception e) {
-            logger.error("Errore durante la ricerca per titolo", e);
+            logger.error("Errore durante la ricerca tramite titolo", e);
             return Collections.emptyList();
         }
     }
@@ -94,12 +94,12 @@ public class ArchiveFile implements Archive{
     @Override
     public List<Element> getByAuthor(String author) {
         try {
-            var query = em.createNamedQuery("GET_AUTORE");
-            query.setParameter("AUTORE", author);
+            var query = em.createNamedQuery("GET_AUTHOR");
+            query.setParameter("AUTHOR", author);
             List<Element> result = query.getResultList();
             return result;
         } catch (Exception e) {
-            logger.error("Elemento con autore specificato non esiste", e);
+            logger.error("Elemento con autore specificato inesistente", e);
             return Collections.emptyList();
         }
     }
@@ -112,13 +112,13 @@ public class ArchiveFile implements Archive{
     @Override
     public List<Element> getPublicationYear(Date publicationYear) {
         try {
-            var query = em.createNamedQuery("GET_ANNO");
+            var query = em.createNamedQuery("GET_YEAR");
 
             query.setParameter("publicationYear", publicationYear);
             List<Element> result = query.getResultList();
             return result;
         } catch (Exception e) {
-            logger.error("Nessun libro uscito in questo anno nel catalogo", e);
+            logger.error("Nessun libro uscito in quest'anno nel catalogo", e);
             return null;
         }
     }
