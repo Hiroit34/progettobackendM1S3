@@ -1,15 +1,34 @@
 package org.example;
 
-import java.util.Date;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+import java.time.LocalDate;
+
+@Entity
+
+@DiscriminatorValue("Book")
 
 public class Book extends Element{
     String author;
     String genre;
 
-    public Book(String ISBN, String title, Date publicationYear, int pages, String author, String genre) {
+    public Book(String ISBN, String title, int publicationYear, int pages, String author, String genre) {
         super(ISBN, title, publicationYear, pages);
         this.author = author;
         this.genre = genre;
+    }
+
+    public Book() {
+
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getAuthor() {
@@ -20,4 +39,11 @@ public class Book extends Element{
         return genre;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                '}';
+    }
 }

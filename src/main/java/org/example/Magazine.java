@@ -8,10 +8,23 @@ public class Magazine extends Element {
 
     public Magazine(String ISBN, String title, Date publicationYear, int pages, Periodicity periodicity) {
         super(ISBN, title, publicationYear, pages);
-        this.periodicity = periodicity;
     }
+
+    public Magazine(){}
+
 
     public Periodicity getPeriodicity() {
         return periodicity;
+    }
+
+    public void setPeriodicity(Periodicity periodicity) {
+        this.periodicity = periodicity;
+    }
+
+    @Override
+    public String toString() {
+        return "Magazine{" +
+                "periodicity=" + periodicity +
+                '}';
     }
 }
