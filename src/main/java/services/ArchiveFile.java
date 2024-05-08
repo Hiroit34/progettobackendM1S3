@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class ArchiveFile implements Archive{
+
+
     
     private static final Logger logger = LoggerFactory.getLogger(ArchiveFile.class);
 
@@ -39,12 +41,12 @@ public class ArchiveFile implements Archive{
     @Override
     public void deleteISBN(Integer ISBN) {
         try {
-            Element catalogo = em.find(Element.class, ISBN); // Trova il catalogo per ISBN
+            Element element = em.find(Element.class, ISBN); // Trova il catalogo per ISBN
 
-            if (catalogo != null) {
+            if (element != null) {
                 var t = em.getTransaction();
                 t.begin();
-                em.remove(catalogo); // Rimuove il catalogo dal database
+                em.remove(element); // Rimuove il catalogo dal database
                 t.commit();
                 logger.info("Catalogo con ISBN {} rimosso con successo", ISBN);
             } else {
@@ -60,8 +62,7 @@ public class ArchiveFile implements Archive{
         try {
             var query = em.createNamedQuery("GET_TITLE", Element.class);
             query.setParameter("TITLE", title);
-            List<Element> result = query.getResultList();
-            return result;
+            return query.getResultList();
         } catch (Exception e) {
             logger.error("Errore durante la ricerca tramite titolo", e);
             return Collections.emptyList();
@@ -90,14 +91,13 @@ public class ArchiveFile implements Archive{
             return Optional.empty();
         }
     }
-
+    @SuppressWarnings("unchecked")
     @Override
     public List<Element> getByAuthor(String author) {
         try {
             var query = em.createNamedQuery("GET_AUTHOR");
             query.setParameter("AUTHOR", author);
-            List<Element> result = query.getResultList();
-            return result;
+            return (List<Element>) query.getResultList();
         } catch (Exception e) {
             logger.error("Elemento con autore specificato inesistente", e);
             return Collections.emptyList();
@@ -108,15 +108,14 @@ public class ArchiveFile implements Archive{
     public void getAuthor(String author) {
 
     }
-
+    @SuppressWarnings("unchecked")
     @Override
     public List<Element> getPublicationYear(Date publicationYear) {
         try {
             var query = em.createNamedQuery("GET_YEAR");
 
             query.setParameter("publicationYear", publicationYear);
-            List<Element> result = query.getResultList();
-            return result;
+            return (List<Element>) query.getResultList();
         } catch (Exception e) {
             logger.error("Nessun libro uscito in quest'anno nel catalogo", e);
             return null;
